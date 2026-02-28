@@ -66,7 +66,7 @@ export default function Sidebar() {
 
           {/* Download PRD - directly after nav items */}
           <a
-            href="/PRD.md"
+            href="/PRD.pdf"
             download
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-gray-500 hover:text-glean-blue hover:bg-gray-100/80 transition-all duration-200"
           >
@@ -76,7 +76,7 @@ export default function Sidebar() {
 
           {/* Glean skill outputs on GitHub */}
           <a
-            href="https://github.com/TODO/glean-takehome/tree/main/outputs"
+            href="https://github.com/ashstep2/product-operating-system-g/tree/master/outputs"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-gray-500 hover:text-glean-blue hover:bg-gray-100/80 transition-all duration-200"
