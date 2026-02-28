@@ -37,9 +37,9 @@ export default function Sidebar() {
         <div className="px-6 pt-8 pb-6">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-glean-blue to-glean-purple flex items-center justify-center">
-              <span className="text-white font-bold text-xs">PI</span>
+              <span className="text-white font-bold text-xs">OS</span>
             </div>
-            <span className="font-semibold text-[15px] text-gray-900 tracking-tight">Product Intel</span>
+            <span className="font-semibold text-[15px] text-gray-900 tracking-tight">Product OS</span>
           </div>
         </div>
 

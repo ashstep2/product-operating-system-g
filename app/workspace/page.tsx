@@ -96,14 +96,9 @@ export default function WorkspacePage() {
                   Skill: <span className="text-glean-blue font-medium">{activeSkillData.id}</span>
                 </span>
                 <span className="text-gray-200">|</span>
-                <span>Platform: AI Product Intelligence Platform</span>
-              </div>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1 text-[12px] text-gray-400">
                 <span>Company: <span className="text-gray-600 font-medium">Glean</span> (AI-Powered Enterprise Search & Assistant)</span>
                 <span className="text-gray-200">|</span>
                 <span>Date: {activeSkillData.date}</span>
-                <span className="text-gray-200">|</span>
-                <span>Author: AI Product Intelligence Platform</span>
               </div>
             </div>
 

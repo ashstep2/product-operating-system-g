@@ -3,7 +3,7 @@ import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
 
 export const metadata: Metadata = {
-  title: "Product Intelligence Platform",
+  title: "Product Operating System",
   description: "From scattered signals to shipped decisions. AI-powered PM reasoning.",
 };
 

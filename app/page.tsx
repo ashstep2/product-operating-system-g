@@ -30,7 +30,7 @@ export default function Dashboard() {
       <div className="flex-shrink-0 space-y-6 pb-4">
         {/* Hero */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <p className="text-sm font-medium text-glean-blue mb-1">AI Product Intelligence</p>
+          <p className="text-sm font-medium text-glean-blue mb-1">Product Operating System</p>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
             Product Command Center
           </h1>
