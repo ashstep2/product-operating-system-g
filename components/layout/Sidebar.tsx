@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, BookOpen, GitBranch, FlaskConical, Menu, X } from "lucide-react";
+import { LayoutDashboard, BookOpen, GitBranch, FlaskConical, FileText, FolderOpen, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
-  { label: "Skill Library", href: "/skills", icon: BookOpen },
-  { label: "Dependency Graph", href: "/graph", icon: GitBranch },
+  { label: "Skills", href: "/skills", icon: BookOpen },
+  { label: "Graph", href: "/graph", icon: GitBranch },
   { label: "Workspace", href: "/workspace", icon: FlaskConical },
 ];
 
@@ -18,38 +18,32 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile toggle */}
       <button
-        className="fixed top-4 left-4 z-50 md:hidden bg-white rounded-lg p-2 shadow-md border border-gray-200"
+        className="fixed top-5 left-5 z-50 md:hidden bg-[#FAFAFA] rounded-full p-2.5 shadow-sm border border-gray-100"
         onClick={() => setOpen(!open)}
       >
-        {open ? <X size={20} /> : <Menu size={20} />}
+        {open ? <X size={18} /> : <Menu size={18} />}
       </button>
 
-      {/* Overlay */}
       {open && (
-        <div className="fixed inset-0 bg-black/20 z-30 md:hidden" onClick={() => setOpen(false)} />
+        <div className="fixed inset-0 bg-black/10 z-30 md:hidden backdrop-blur-sm" onClick={() => setOpen(false)} />
       )}
 
-      {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 h-full w-64 bg-white border-r border-gray-200 flex flex-col transition-transform duration-200 md:translate-x-0 ${
+        className={`fixed top-0 left-0 z-40 h-full w-[240px] bg-[#FAFAFA] border-r border-gray-200/60 flex flex-col transition-transform duration-300 ease-out md:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="p-6 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-glean-blue flex items-center justify-center">
-              <span className="text-white font-bold text-sm">PI</span>
+        <div className="px-6 pt-8 pb-6">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-glean-blue to-glean-purple flex items-center justify-center">
+              <span className="text-white font-bold text-xs">PI</span>
             </div>
-            <div>
-              <h1 className="font-semibold text-gray-900 text-sm">Product Intelligence</h1>
-              <p className="text-[10px] text-gray-400 uppercase tracking-wider">AI Platform</p>
-            </div>
+            <span className="font-semibold text-[15px] text-gray-900 tracking-tight">Product Intel</span>
           </div>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="flex-1 px-3 space-y-0.5">
           {navItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
             const Icon = item.icon;
@@ -58,25 +52,39 @@ export default function Sidebar() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 ${
                   isActive
-                    ? "bg-glean-blue/10 text-glean-blue"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    ? "bg-glean-blue text-white shadow-sm shadow-glean-blue/20"
+                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-100/80"
                 }`}
               >
-                <Icon size={18} />
+                <Icon size={16} strokeWidth={isActive ? 2.5 : 2} />
                 {item.label}
               </Link>
             );
           })}
-        </nav>
 
-        <div className="p-4 border-t border-gray-100">
-          <div className="bg-gray-50 rounded-lg p-3">
-            <p className="text-xs text-gray-500 font-medium">Prototype Demo</p>
-            <p className="text-[10px] text-gray-400 mt-1">Built for Glean FDPM application</p>
-          </div>
-        </div>
+          {/* Download PRD - directly after nav items */}
+          <a
+            href="/PRD.md"
+            download
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-gray-500 hover:text-glean-blue hover:bg-gray-100/80 transition-all duration-200"
+          >
+            <FileText size={16} strokeWidth={2} />
+            Download PRD
+          </a>
+
+          {/* Glean skill outputs on GitHub */}
+          <a
+            href="https://github.com/TODO/glean-takehome/tree/main/outputs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-gray-500 hover:text-glean-blue hover:bg-gray-100/80 transition-all duration-200"
+          >
+            <FolderOpen size={16} strokeWidth={2} />
+            Glean Skill Outputs
+          </a>
+        </nav>
       </aside>
     </>
   );

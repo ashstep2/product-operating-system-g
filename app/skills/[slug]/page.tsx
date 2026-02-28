@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, GitBranch } from "lucide-react";
 import { skillsBySlug } from "@/lib/data/skills";
 import CategoryBadge from "@/components/shared/CategoryBadge";
-import DemoLabel from "@/components/shared/DemoLabel";
 
 export default function SkillDetail() {
   const params = useParams();
@@ -15,109 +14,92 @@ export default function SkillDetail() {
 
   if (!skill) {
     return (
-      <div className="pt-8 md:pt-0">
+      <div>
         <Link href="/skills" className="text-glean-blue text-sm flex items-center gap-1 mb-4">
-          <ArrowLeft size={14} /> Back to Skills
+          <ArrowLeft size={14} /> Back
         </Link>
-        <p className="text-gray-500">Skill not found.</p>
+        <p className="text-gray-400">Skill not found.</p>
       </div>
     );
   }
 
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 pt-8 md:pt-0">
-      <Link href="/skills" className="text-glean-blue text-sm flex items-center gap-1 hover:underline">
-        <ArrowLeft size={14} /> Back to Skills
-      </Link>
+    <div className="h-[calc(100vh-64px)] overflow-y-auto pr-1">
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="space-y-6">
+        <Link href="/skills" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-glean-blue transition-colors">
+          <ArrowLeft size={14} /> Skills
+        </Link>
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8">
-        <div className="flex items-center gap-3 mb-4 flex-wrap">
+        <div>
           <CategoryBadge category={skill.category} />
-          <DemoLabel />
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight mt-3">{skill.name}</h1>
+          <p className="text-gray-400 mt-2 text-[15px] leading-relaxed max-w-2xl">{skill.description}</p>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-3">{skill.name}</h1>
-        <p className="text-gray-600 leading-relaxed">{skill.description}</p>
-      </div>
 
-      {/* Connections */}
-      <div className="grid sm:grid-cols-2 gap-4">
-        {/* Reads From */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <GitBranch size={16} className="text-glean-blue" />
-            <h2 className="font-semibold text-gray-900">Reads From</h2>
-            <span className="text-xs text-gray-400">({skill.readsFrom.length})</span>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <ConnectionList
+            title="Reads From"
+            icon={<GitBranch size={15} className="text-glean-blue" />}
+            slugs={skill.readsFrom}
+            emptyText="No upstream dependencies"
+          />
+          <ConnectionList
+            title="Feeds Into"
+            icon={<ArrowRight size={15} className="text-emerald-500" />}
+            slugs={skill.feedsInto}
+            emptyText="Terminal skill"
+          />
+        </div>
+
+        <div className="bg-white rounded-2xl border border-gray-100 p-6">
+          <h2 className="font-semibold text-gray-900 mb-4">Produced Artifacts</h2>
+          <div className="grid sm:grid-cols-2 gap-2">
+            {getArtifacts(skill.slug).map((a, i) => (
+              <div key={i} className="flex items-center gap-2.5 py-2 px-3 rounded-xl bg-gray-50/80">
+                <div className="w-1 h-1 rounded-full bg-glean-blue flex-shrink-0" />
+                <span className="text-[13px] text-gray-600">{a}</span>
+              </div>
+            ))}
           </div>
-          {skill.readsFrom.length === 0 ? (
-            <p className="text-sm text-gray-400">No upstream dependencies — this skill can run independently.</p>
-          ) : (
-            <div className="space-y-2">
-              {skill.readsFrom.map((s) => {
-                const upstream = skillsBySlug[s];
-                return (
-                  <Link
-                    key={s}
-                    href={`/skills/${s}`}
-                    className="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:border-gray-200 hover:bg-gray-50 transition-colors"
-                  >
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">{upstream?.name ?? s}</p>
-                      {upstream && <CategoryBadge category={upstream.category} />}
-                    </div>
-                    <ArrowRight size={14} className="text-gray-400" />
-                  </Link>
-                );
-              })}
-            </div>
-          )}
         </div>
+      </motion.div>
+    </div>
+  );
+}
 
-        {/* Feeds Into */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <ArrowRight size={16} className="text-emerald-600" />
-            <h2 className="font-semibold text-gray-900">Feeds Into</h2>
-            <span className="text-xs text-gray-400">({skill.feedsInto.length})</span>
-          </div>
-          {skill.feedsInto.length === 0 ? (
-            <p className="text-sm text-gray-400">Terminal skill — no downstream skills depend on this output.</p>
-          ) : (
-            <div className="space-y-2">
-              {skill.feedsInto.map((s) => {
-                const downstream = skillsBySlug[s];
-                return (
-                  <Link
-                    key={s}
-                    href={`/skills/${s}`}
-                    className="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:border-gray-200 hover:bg-gray-50 transition-colors"
-                  >
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">{downstream?.name ?? s}</p>
-                      {downstream && <CategoryBadge category={downstream.category} />}
-                    </div>
-                    <ArrowRight size={14} className="text-gray-400" />
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
+function ConnectionList({ title, icon, slugs, emptyText }: { title: string; icon: React.ReactNode; slugs: string[]; emptyText: string }) {
+  return (
+    <div className="bg-white rounded-2xl border border-gray-100 p-5">
+      <div className="flex items-center gap-2 mb-3">
+        {icon}
+        <h2 className="text-sm font-semibold text-gray-900">{title}</h2>
+        <span className="text-xs text-gray-300">({slugs.length})</span>
       </div>
-
-      {/* Sample Outputs */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-        <h2 className="font-semibold text-gray-900 mb-3">What This Skill Produces</h2>
-        <p className="text-sm text-gray-500 mb-4">When executed with your product context and signal data, this skill generates structured artifacts including:</p>
-        <div className="grid sm:grid-cols-2 gap-3">
-          {getArtifacts(skill.slug).map((a, i) => (
-            <div key={i} className="flex items-start gap-2 p-3 bg-gray-50 rounded-lg">
-              <span className="text-glean-blue mt-0.5">&#x2022;</span>
-              <span className="text-sm text-gray-700">{a}</span>
-            </div>
-          ))}
+      {slugs.length === 0 ? (
+        <p className="text-[13px] text-gray-300">{emptyText}</p>
+      ) : (
+        <div className="space-y-1">
+          {slugs.map((s) => {
+            const linked = skillsBySlug[s];
+            return (
+              <Link
+                key={s}
+                href={`/skills/${s}`}
+                className="flex items-center justify-between py-2 px-3 rounded-xl hover:bg-gray-50 transition-colors group"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-[13px] font-medium text-gray-700 group-hover:text-glean-blue transition-colors">
+                    {linked?.name ?? s}
+                  </span>
+                  {linked && <CategoryBadge category={linked.category} />}
+                </div>
+                <ArrowRight size={12} className="text-gray-200 group-hover:text-glean-blue transition-colors" />
+              </Link>
+            );
+          })}
         </div>
-      </div>
-    </motion.div>
+      )}
+    </div>
   );
 }
 

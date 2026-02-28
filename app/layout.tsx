@@ -3,22 +3,20 @@ import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
 
 export const metadata: Metadata = {
-  title: "Product Intelligence Platform | AI-Powered PM Decisions",
-  description: "From scattered signals to shipped decisions. 30 PM reasoning skills, real-time signal ingestion, decision-ready artifacts.",
-  openGraph: {
-    title: "AI Product Intelligence Platform",
-    description: "From scattered signals to shipped decisions.",
-  },
+  title: "Product Intelligence Platform",
+  description: "From scattered signals to shipped decisions. AI-powered PM reasoning.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="bg-gray-50 text-gray-900">
+    <html lang="en" className="h-full">
+      <body className="h-full overflow-hidden">
         <Sidebar />
-        <main className="md:ml-64 min-h-screen">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {children}
+        <main className="md:ml-[240px] h-full overflow-hidden">
+          <div className="h-full overflow-y-auto px-6 sm:px-8 py-8">
+            <div className="max-w-6xl mx-auto">
+              {children}
+            </div>
           </div>
         </main>
       </body>
